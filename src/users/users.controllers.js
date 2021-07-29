@@ -22,8 +22,24 @@ exports.findUser = async (req, res) => {
     }
 };
 
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = req.params.username;
+            const deletedUser = await User.findOneAndDelete({username: user});
+            res.status(200).send({ user: deletedUser, message: "User deleted" })
+    } catch (error) {
+        res.staus(500).send(error);
+    }  
+};
+
 exports.updateUser = async (req, res) => {
     try {
-        const user = 
+        const user = req.body.username;
+        const pass = req.body.password;
+        const userModify = await User.updateOne({username: user, password: pass});
+        res.status(200).send({ user: userModify, message: "User updated"})
+    } catch (error) {
+        res.status(500).send(error)
     }
-}
+};
